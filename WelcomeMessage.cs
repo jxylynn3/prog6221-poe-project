@@ -62,10 +62,45 @@ namespace CAB.ChatBot_App
         public static void PersonalisedWelcome()
         {
             Console.OutputEncoding = Encoding.UTF8; // Maak seker spesiale karakters werk! [https://learn.microsoft.com/en-us/dotnet/api/system.console.outputencoding]
+            // addeed for 2nd commit
+            string name = "";
+            bool IS_validName = false;
+            while (!IS_validName)
+            { 
             Console.WriteLine("What is your name?");
             Utils.SetUserTypingColor(); 
-            string name = Console.ReadLine();
+            name = Console.ReadLine();
             Console.ResetColor();
+                try
+                {
+                    if(string.IsNullOrWhiteSpace(name))
+                    {
+                        throw new Exception(" Name cannot be empty. Please enter a valid name.");
+                    }
+                    if (name.Length < 3)
+                    {
+                        throw new Exception("Name must be at least 3 characters long.");
+                    }
+
+                    if (name.Any(char.IsDigit))
+                    {
+                        throw new Exception("Name cannot contain numbers.");
+                    }
+
+                    if (!name.All(C => char.IsLetter(C) || C == ' ' || C == '-' || C == '\''))
+                        throw new Exception("Name can only contain letters, spaces,hyphens (-), and apostrophes (').");
+
+                    IS_validName = true;
+                }
+                catch (Exception ex)
+                {
+                    Utils.ColorBorders("warning");
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine(ex.Message);
+                    Console.ResetColor();
+                    Utils.ColorBorders("warning");
+                }
+            }
             Utils.ColorBorders("top");
             Console.WriteLine($"Hello {name}, welcome to the CAB ChatBot application!");
             Utils.ColorBorders("bottom");

@@ -1,6 +1,4 @@
-﻿using System;
-
-public class CAB_ChatBot
+﻿public class CAB_ChatBot
 {
     public async Task CyberSecurityQuestion()
     {
@@ -29,14 +27,27 @@ public class CAB_ChatBot
             Utils.SetUserTypingColor();
             string userQuestion = Console.ReadLine().ToLower();
             Console.ResetColor();
-
+            // added xception
+            if (string.IsNullOrWhiteSpace(userQuestion))
+            {
+                Utils.ColorBorders("warning");
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("I can't help you if you don’t tell me anything." + "\n" +
+                    "Try typing something next time!");
+                Console.ResetColor();
+                Utils.ColorBorders("warning");
+                continue;
+            }
             Console.ForegroundColor = ConsoleColor.DarkCyan;
 
             if (userQuestion.Contains("password") || userQuestion.Contains("strong password"))
             {
                 Utils.ColorBorders("divider1");
-                await Utils.ChatbotResponse("A strong password should be at least 8-16 characters long, with a mix of uppercase, lowercase, numbers, and symbols. " +
-                    "Avoid using common words or personal info. Here is a great example of a strong password 'Tr0pical!S3curity2025'. Alternatively, consider using a password manager to store and generate secure passwords.");
+                await Utils.ChatbotResponse("A strong password should be at least 8-16 characters long," + "\n" +
+                    "with a mix of uppercase, lowercase, numbers, and symbols. " + "\n" +
+                    "Avoid using common words or personal info." + "\n" +
+                    "Here is a great example of a strong password 'TryH@rder_Br0!'." + "\n" +
+                    "Alternatively, consider using a password manager to store and generate secure passwords.");
                 Utils.ColorBorders("divider2");
             }
             else if (userQuestion.Contains("phishing") || userQuestion.Contains("scam email"))
@@ -129,8 +140,9 @@ public class CAB_ChatBot
             else
             {
                 Console.ResetColor();
-                Console.WriteLine(Utils.Warning_Border);
+                Utils.ColorBorders("warning");
                 Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine("\nI'm here to help with cybersecurity! Try asking about:");
                 Console.WriteLine("  - Password security");
                 Console.WriteLine("  - Phishing scams");
@@ -138,11 +150,11 @@ public class CAB_ChatBot
                 Console.WriteLine("  - Malware protection");
                 Console.WriteLine("  - Public Wi-Fi risks\n");
                 Console.ResetColor();
-                Console.WriteLine(Utils.Warning_Border);
+                Utils.ColorBorders("warning");
                 continue; // re-prompt without ending
             }
             Console.ResetColor();
-            
+
         }
 
     }
