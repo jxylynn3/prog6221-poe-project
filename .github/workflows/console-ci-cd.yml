@@ -1,0 +1,35 @@
+name: CAB.ChatBot_App CI/CD
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '8.0.x' 
+    - name: Restore Dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build CAB.ChatBot_App.csproj --configuration Release --no-restore
+
+    - name: Publish Console App
+      run: dotnet publish CAB.ChatBot_App.csproj -c Release -o publish
+
+    - name: Upload Published App
+      uses: actions/upload-artifact@v3
+      with:
+        name: CAB_ChatBot_App_Build
+        path: publish/
