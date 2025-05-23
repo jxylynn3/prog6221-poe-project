@@ -2,9 +2,7 @@
 
 public class Utils
 {
-    public static string StoredUsername { get; private set; } = "";//used for the Register/Login :Holds the inputted info for the login
-    public static string StoredPassword { get; private set; } = "";
-
+    // borders used within the project
     public static string Top_Border = "╭── ⋅  ── ⋅ ── ⋅ ── ✩ ── ⋅  ── ⋅ ──  ⋅  ── ⋅ ──  ⋅ ──╮";
     
     public static string Bottom_Border = "╰──  ⋅  ── ⋅ ── ⋅ ── ✩ ── ⋅  ── ⋅ ──  ⋅  ── ⋅ ──  ⋅ ──╯";

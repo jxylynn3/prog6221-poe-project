@@ -12,8 +12,7 @@ namespace CAB.ChatBot_App
 {
     internal class WelcomeMessage
     {
-        static string _storedusername = "";
-        static string _storedpassword = "";
+        public static string Name { get; set; } = "";
         public static void Welcome()
         {
             // welcome audio message in WAV
@@ -91,6 +90,7 @@ namespace CAB.ChatBot_App
                         throw new Exception("Name can only contain letters, spaces,hyphens (-), and apostrophes (').");
 
                     IS_validName = true;
+                    Name = name;//stores the validated name for use in memory features later
                 }
                 catch (Exception ex)
                 {
@@ -102,7 +102,7 @@ namespace CAB.ChatBot_App
                 }
             }
             Utils.ColorBorders("top");
-            Console.WriteLine($"Hello {name}, welcome to the CAB ChatBot application!");
+            Console.WriteLine($"Hello {Name}, welcome to the CAB ChatBot application!");
             Utils.ColorBorders("bottom");
         }
 
