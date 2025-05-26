@@ -61,7 +61,7 @@ namespace CAB.ChatBot_App
         public static void PersonalisedWelcome()
         {
             Console.OutputEncoding = Encoding.UTF8; // Maak seker spesiale karakters werk! [https://learn.microsoft.com/en-us/dotnet/api/system.console.outputencoding]
-            // addeed for 2nd commit
+            // added for 2nd commit
             string name = "";
             bool IS_validName = false;
             while (!IS_validName)
@@ -90,7 +90,9 @@ namespace CAB.ChatBot_App
                         throw new Exception("Name can only contain letters, spaces,hyphens (-), and apostrophes (').");
 
                     IS_validName = true;
-                    Name = name;//stores the validated name for use in memory features later
+                    //add for part02
+                    //stores the validated name so that it can be used in memory features later
+                    Name = name;
                 }
                 catch (Exception ex)
                 {

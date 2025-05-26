@@ -3,8 +3,11 @@ using System.Collections.Generic;
 
 namespace CAB.ChatBot_App
 {
+    // This static class handles all the core chatbot logic for topics, follow-ups, and sentiment support.
     public static class AddedImplementation_CABChatBot
     {
+        // Dictionary to store cybersecurity topics for the keyboard Recognition feature
+        // The key is the keyword for the specific topic (e.g., "password") and the value is an array of string responses for the specific topic.
         public static readonly Dictionary<string, string[]> CybersecurityTopics = new(StringComparer.OrdinalIgnoreCase)
         {
             { "password", new string[] {
@@ -94,10 +97,11 @@ namespace CAB.ChatBot_App
             }},
         };
 
-
+        // Separate dictionary for follow-up responses after the user says "Tell me more" or something similar.
         // Follow-up responses for important topics - now providing direct answers
         public static readonly Dictionary<string, string[]> FollowUpResponses = new(StringComparer.OrdinalIgnoreCase)
         {
+            // These go deeper into specific topics,thus creating a convo feel
             { "password", new string[] {
                 "To create a strong, memorable password, use a *passphrase*. This is a sentence or string of unrelated words that's long and unique. For example, instead of 'password123', try 'My blue dog jumped over the lazy moon!'. You can add numbers or symbols in unusual places, like 'MyBlued0gJmpd!ovrTheLazyM00n?'.",
                 "You shouldn't reuse passwords across different accounts because if one of your passwords is stolen from a data breach on one website, hackers will immediately try that same password on all your other accounts. This is called a 'credential stuffing attack' and it's incredibly common and successful.",
@@ -119,14 +123,17 @@ namespace CAB.ChatBot_App
                 "If you receive a suspicious email or text that might be phishing, *do not click any links, open any attachments, or reply to the message*. If it's an email, mark it as junk or phishing. If it's a text, delete it. If the message pretends to be from a company you use, go directly to their official website by typing their URL into your browser (do not use a link from the suspicious message) to check your account."
             }},
         };
-        public static bool TryGetResponse(string userInput, out string response)
+
+        // Method to detect if a keyword from the user's input matches a cybersecurity topic
+        // If matched, returns one of the random responses from the array
+        public static bool GetResponse(string userInput, out string response)
         {
             foreach (var entry in CybersecurityTopics)
             {
                 if (userInput.Contains(entry.Key, StringComparison.OrdinalIgnoreCase))
                 {
                     // Select a random response from the array
-                    var random = new Random();
+                    var random = new Random();//randomising the responses for the user
                     response = entry.Value[random.Next(entry.Value.Length)];
                     return true;
                 }
@@ -134,7 +141,8 @@ namespace CAB.ChatBot_App
             response = null;
             return false;
         }
-        public static bool TryGetFollowUpResponse(string userInput, out string response)
+        // Same as TryGetResponse but for follow-up questions to go deeper on a topic
+        public static bool GetFollowUpResponse(string userInput, out string response)
         {
             foreach (var entry in FollowUpResponses)
             {
@@ -148,6 +156,23 @@ namespace CAB.ChatBot_App
             }
             response = null;
             return false;
+        }
+        // Sentiment detection + response feature: uses how the user is feeling,and return a message that shows empathy.
+        public static string GetSentimentResponse(string usedMood)
+        {
+            switch (usedMood) // This switch matches known moods and returns a supportive message accordingly
+            {
+                case "worried":
+                    return "Don't worry, you're not alone — we can figure this out together!";
+                case "frustrated":
+                    return "I get it, cybersecurity can be tricky! Let’s take it one step at a time.";
+                case "curious":
+                    return "Ooo, love that curiosity! Let's dig in!";
+                case "bored":
+                    return "Let's spice it up! Cybersecurity's way more interesting than it sounds.";
+                default:
+                    return null;
+            }
         }
 
     }
