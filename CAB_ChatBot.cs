@@ -1,12 +1,93 @@
 ﻿using CAB.ChatBot_App;
+using System.Diagnostics;
 
 public class CAB_ChatBot
 {
     //added for part 02
     //these declarations are used to store the current topic,the users favourite topic and their most challenging topic
-    private string currentTopic = null; 
+    private string currentTopic = null;
     private string favTopic = "";
     private string challengingTopic = " ";
+    // this is used to access the GUI from the console app
+    public async Task StartAppMenu()
+    {
+        Console.Clear();
+        Utils.ColorBorders("warning");
+        Console.ForegroundColor = ConsoleColor.DarkMagenta;
+        Console.WriteLine(" CAB ChatBot Multi-Mode Assistant ");
+        Utils.ColorBorders("warning");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("Welcome to your Cybersecurity Assistant!");
+        Console.WriteLine("How would you like to continue?\n");
+        Console.WriteLine("1. Use the Console ChatBot");
+        Console.WriteLine("2. Open the GUI App");
+        Console.WriteLine("3. Exit");
+
+        Utils.ColorBorders("warning");
+        Console.ResetColor();
+        Console.Write("Enter your choice (1, 2 or 3): ");
+        string choice = Console.ReadLine();
+
+        switch (choice)
+        {
+            case "1":
+                Console.Clear();
+                await CyberSecurityQuestion();
+                break;
+            case "2":
+                LaunchGuiApp();
+                break;
+            case "3":
+                Console.WriteLine("Goodbye!");
+                return;
+            default:
+                Utils.ColorBorders("warning");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Invalid choice. Please enter 1, 2, or 3.");
+                Console.ResetColor();
+                Utils.ColorBorders("warning");
+                await StartAppMenu(); // Recursively call to retry
+                break;
+        }
+    }
+
+    private void LaunchGuiApp()
+    {
+        try
+        {
+            // Get full path to the executable
+            string guiPath = @"C:\Users\lab_services_student\source\repos\CAB.ChatBot_POE\CAB.TaskAssistant_GUI\bin\Debug\net6.0-windows\CAB.TaskAssistant_GUI.exe";
+
+            if (File.Exists(guiPath))
+            {
+                ProcessStartInfo psi = new ProcessStartInfo
+                {
+                    FileName = guiPath,
+                    UseShellExecute = true
+                };
+                Process.Start(psi);
+                Console.WriteLine("GUI Launched!");
+            }
+            else
+            {
+                Utils.ColorBorders("warning");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("GUI app not found at:");
+                Console.WriteLine(guiPath);
+                Console.ResetColor();
+                Utils.ColorBorders("warning");
+            }
+        }
+        catch (Exception ex)
+        {
+            Utils.ColorBorders("warning");
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Failed to launch GUI app:");
+            Console.WriteLine(ex.Message);
+            Console.ResetColor();
+            Utils.ColorBorders("warning");
+        }
+    }
     public async Task CyberSecurityQuestion()
     {
         //1. Displays the personalised Welcome message using stored name from WelcomeMessage.cs

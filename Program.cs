@@ -9,9 +9,7 @@ namespace CAB.ChatBot_App
         {
             WelcomeMessage.Welcome();// welcome message with WAV 
             var chatBot = new CAB_ChatBot();//the questions
-            await chatBot.CyberSecurityQuestion();
-            //enters the GUI
-            Process.Start("CAB.TaskAssistant_GUI.exe"); 
+            await chatBot.StartAppMenu(); 
         }
        
     }
